@@ -1,0 +1,75 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sk_postgres
+    environment:
+      POSTGRES_DB: sk_db
+      POSTGRES_USER: sk_user
+      POSTGRES_PASSWORD: sk_password
+    ports:
+      - "5435:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - sk_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sk_user -d sk_db"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  app:
+    build: .
+    container_name: sk_app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      # Database
+      DATABASE_URL: postgresql://sk_user:sk_password@postgres:5432/sk_db
+      
+      # OpenAI API
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      
+      # Vector Store IDs
+      VND_VECTOR_STORE_ID: ${VND_VECTOR_STORE_ID}
+      LEGAL_VECTOR_STORE_ID: ${LEGAL_VECTOR_STORE_ID}
+      
+      # NextAuth
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: http://localhost:3000
+      
+      # Node Environment
+      NODE_ENV: production
+    ports:
+      - "0.0.0.0:3000:3000"
+    networks:
+      - sk_network
+    volumes:
+      - app_data:/app/data
+      - videos_data:/app/public/videos
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: sk_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    networks:
+      - sk_network
+    depends_on:
+      - postgres
+    profiles:
+      - tools
+
+volumes:
+  postgres_data:
+  app_data:
+  videos_data:
+
+networks:
+  sk_network:
+    driver: bridge
