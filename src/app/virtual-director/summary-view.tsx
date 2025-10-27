@@ -13,7 +13,7 @@ interface SummaryViewProps {
 const SECTION_KEYWORDS = {
   ru: {
     agenda: 'ПУНКТ ПОВЕСТКИ ДНЯ',
-    decision: 'РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД',
+    decision: 'РЕШЕНИЕ ЧЛЕНА СД',
     briefConclusion: 'КРАТКОЕ ЗАКЛЮЧЕНИЕ',
     justification: 'ОБОСНОВАНИЕ',
     finalConclusion: 'ИТОГОВОЕ ЗАКЛЮЧЕНИЕ',
@@ -30,7 +30,7 @@ const SECTION_KEYWORDS = {
   },
   en: {
     agenda: 'AGENDA ITEM',
-    decision: 'INDEPENDENT BOARD MEMBER DECISION',
+    decision: 'BOARD MEMBER DECISION',
     briefConclusion: 'BRIEF CONCLUSION',
     justification: 'JUSTIFICATION',
     finalConclusion: 'FINAL CONCLUSION',

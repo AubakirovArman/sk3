@@ -18,7 +18,7 @@ export const sectionTitles = {
     npaRecommendations: 'НПА: РЕКОМЕНДАЦИИ ПО СООТВЕТСТВИЮ',
     npaSources: 'ИСТОЧНИКИ НПА',
     agendaItem: 'ПУНКТ ПОВЕСТКИ ДНЯ',
-    decision: 'РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД',
+    decision: 'РЕШЕНИЕ ЧЛЕНА СД',
     briefConclusion: 'КРАТКОЕ ЗАКЛЮЧЕНИЕ',
     reasoning: 'ОБОСНОВАНИЕ',
     finalConclusion: 'ИТОГОВОЕ ЗАКЛЮЧЕНИЕ'
@@ -56,7 +56,7 @@ export const sectionTitles = {
     npaRecommendations: 'NLA: COMPLIANCE RECOMMENDATIONS',
     npaSources: 'NLA SOURCES',
     agendaItem: 'AGENDA ITEM',
-    decision: 'INDEPENDENT BOARD MEMBER DECISION',
+    decision: 'BOARD MEMBER DECISION',
     briefConclusion: 'BRIEF CONCLUSION',
     reasoning: 'JUSTIFICATION',
     finalConclusion: 'FINAL CONCLUSION'

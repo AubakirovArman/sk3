@@ -7,7 +7,9 @@ const prisma = new PrismaClient()
 
 interface AutoResponderSettings {
   enabled: boolean
-  text: string
+  textRu: string
+  textKk: string
+  textEn: string
 }
 
 // GET - получить настройки автоответчика
@@ -29,13 +31,23 @@ export async function GET() {
       where: { key: 'auto_responder_enabled' }
     })
     
-    const textSetting = await prisma.dialogSettings.findUnique({  
-      where: { key: 'auto_responder_text' }
+    const textRuSetting = await prisma.dialogSettings.findUnique({  
+      where: { key: 'auto_responder_text_ru' }
+    })
+    
+    const textKkSetting = await prisma.dialogSettings.findUnique({  
+      where: { key: 'auto_responder_text_kk' }
+    })
+    
+    const textEnSetting = await prisma.dialogSettings.findUnique({  
+      where: { key: 'auto_responder_text_en' }
     })
 
     const settings: AutoResponderSettings = {
       enabled: enabledSetting?.value === 'true',
-      text: textSetting?.value || ''
+      textRu: textRuSetting?.value || '',
+      textKk: textKkSetting?.value || '',
+      textEn: textEnSetting?.value || ''
     }
 
     return NextResponse.json({
@@ -67,7 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { enabled, text }: AutoResponderSettings = body
+    const { enabled, textRu, textKk, textEn }: AutoResponderSettings = body
 
     if (typeof enabled !== 'boolean') {
       return NextResponse.json(
@@ -76,9 +88,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    if (typeof text !== 'string') {
+    if (typeof textRu !== 'string' || typeof textKk !== 'string' || typeof textEn !== 'string') {
       return NextResponse.json(
-        { success: false, error: 'Invalid text value' },
+        { success: false, error: 'Invalid text values' },
         { status: 400 }
       )
     }
@@ -91,9 +103,21 @@ export async function POST(request: NextRequest) {
     })
 
     await prisma.dialogSettings.upsert({
-      where: { key: 'auto_responder_text' },
-      update: { value: text },
-      create: { key: 'auto_responder_text', value: text }
+      where: { key: 'auto_responder_text_ru' },
+      update: { value: textRu },
+      create: { key: 'auto_responder_text_ru', value: textRu }
+    })
+    
+    await prisma.dialogSettings.upsert({
+      where: { key: 'auto_responder_text_kk' },
+      update: { value: textKk },
+      create: { key: 'auto_responder_text_kk', value: textKk }
+    })
+    
+    await prisma.dialogSettings.upsert({
+      where: { key: 'auto_responder_text_en' },
+      update: { value: textEn },
+      create: { key: 'auto_responder_text_en', value: textEn }
     })
 
     return NextResponse.json({

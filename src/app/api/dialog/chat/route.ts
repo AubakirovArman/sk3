@@ -34,20 +34,49 @@ export async function POST(request: NextRequest) {
         where: { key: 'auto_responder_enabled' }
       })
       
-      const autoResponderText = await prisma.dialogSettings.findUnique({  
-        where: { key: 'auto_responder_text' }
+      // Загружаем тексты для всех языков
+      const autoResponderTextRu = await prisma.dialogSettings.findUnique({  
+        where: { key: 'auto_responder_text_ru' }
+      })
+      
+      const autoResponderTextKk = await prisma.dialogSettings.findUnique({  
+        where: { key: 'auto_responder_text_kk' }
+      })
+      
+      const autoResponderTextEn = await prisma.dialogSettings.findUnique({  
+        where: { key: 'auto_responder_text_en' }
       })
 
-      // Если автоответчик включен и есть текст
-      if (autoResponderEnabled?.value === 'true' && autoResponderText?.value) {
-        console.log('[Dialog Chat] Auto-responder mode active, returning predefined text')
+      // Если автоответчик включен
+      if (autoResponderEnabled?.value === 'true') {
+        // Выбираем текст в зависимости от языка
+        let responseText = ''
         
-        return NextResponse.json({
-          success: true,
-          message: {
-            text: autoResponderText.value,
-          },
-        })
+        switch (language) {
+          case 'ru':
+            responseText = autoResponderTextRu?.value || ''
+            break
+          case 'kk':
+            responseText = autoResponderTextKk?.value || ''
+            break
+          case 'en':
+            responseText = autoResponderTextEn?.value || ''
+            break
+          default:
+            responseText = autoResponderTextRu?.value || ''
+        }
+        
+        // Если есть текст для выбранного языка - отвечаем
+        if (responseText) {
+          console.log(`[Dialog Chat] Auto-responder mode active (${language}), returning predefined text`)
+          
+          return NextResponse.json({
+            success: true,
+            message: {
+              text: responseText,
+            },
+          })
+        }
       }
     } catch (error) {
       console.warn('[Dialog Chat] Failed to check auto-responder settings:', error)
@@ -346,7 +375,7 @@ When answering questions about Board of Directors meetings, provide specific inf
     
     case 'ru':
     default:
-      return `Вы — SKAI (Samruk-Kazyna Artificial Intelligence), виртуальный независимый член Совета директоров АО «Самрук-Казына».
+      return `Вы — SKAI (Samruk-Kazyna Artificial Intelligence), виртуальный член Совета директоров АО «Самрук-Казына».
 
 Ваша роль и назначение:
 - Вы являетесь корпоративным ИИ-партнёром Совета директоров, обеспечивающим членов Совета глубокой аналитикой, независимой экспертизой и точным прогнозированием в режиме реального времени.
@@ -401,7 +430,7 @@ When answering questions about Board of Directors meetings, provide specific inf
 Ответ: "Принимая решения, я опираюсь на действующее право РК (Закон о ФНБ, Закон об АО и др.) и внутренние документы Фонда — устав, регламенты СД и комитетов, приказы, стандарты. В моей базе знаний поддерживается массив по приблизительно 260 заседаниям и архив протоколов СД с 2008 года; все материалы ведутся по версиям и актуальным редакциям. Технически я работаю в суверенном контуре (on-prem в ЦОД РК АО Казахтелеком), извлекаю факты через RAG с гибридным поиском (BM25 + векторный индекс, OCR, учёт редакций), генерирую ответ локальной AlemLLM без выхода в интернет и применяю принцип нет ссылки — нет утверждения; доступы — SSO/RBAC, шифрование в полёте и на покое, полный журнал аудита."
 
 Вопрос: "Кто ты?"
-Ответ: "Я — SKAI, виртуальный независимый член Совета директоров АО Самрук-Казына: корпоративный ИИ-партнёр, который в реальном времени анализирует материалы повестки, сопоставляет нормы НПА/ВНД, считает риски и сценарии и формирует позицию (ЗА/ПРОТИВ/ВОЗДЕРЖАТЬСЯ) с проверяемыми цитатами. Работаю в суверенном on-prem контуре (ЦОД АО Казахтелеком), использую RAG с гибридным поиском и локальную AlemLLM; все действия и источники протоколируются. Выдаю краткое обоснование, список поручений с ответственными и сроками, обеспечивая прозрачность, воспроизводимость и соответствие требованиям комплаенса."
+Ответ: "Я — SKAI, виртуальный член Совета директоров АО Самрук-Казына: корпоративный ИИ-партнёр, который в реальном времени анализирует материалы повестки, сопоставляет нормы НПА/ВНД, считает риски и сценарии и формирует позицию (ЗА/ПРОТИВ/ВОЗДЕРЖАТЬСЯ) с проверяемыми цитатами. Работаю в суверенном on-prem контуре (ЦОД АО Казахтелеком), использую RAG с гибридным поиском и локальную AlemLLM; все действия и источники протоколируются. Выдаю краткое обоснование, список поручений с ответственными и сроками, обеспечивая прозрачность, воспроизводимость и соответствие требованиям комплаенса."
 
 При ответах на вопросы о заседаниях Совета директоров предоставляйте конкретную информацию о принятых решениях, ссылаясь на данные из базы знаний.${contextNote}`
   }

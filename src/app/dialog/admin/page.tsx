@@ -204,7 +204,9 @@ export default function DialogAdminPage() {
   // Состояние автоответчика
   const [autoResponder, setAutoResponder] = useState({
     enabled: false,
-    text: ''
+    textRu: '',
+    textKk: '',
+    textEn: ''
   })
   const [isSavingAutoResponder, setIsSavingAutoResponder] = useState(false)
 
@@ -259,7 +261,9 @@ export default function DialogAdminPage() {
       if (data.success) {
         setAutoResponder({
           enabled: data.settings.enabled || false,
-          text: data.settings.text || ''
+          textRu: data.settings.textRu || '',
+          textKk: data.settings.textKk || '',
+          textEn: data.settings.textEn || ''
         })
       }
     } catch (error) {
@@ -771,13 +775,29 @@ export default function DialogAdminPage() {
                   )}
                 </div>
                 
-                <TextareaField
-                  label="Текст автоответа"
-                  value={autoResponder.text}
-                  onChangeValue={(value) => setAutoResponder(prev => ({ ...prev, text: value }))}
-                  rows={3}
-                  placeholder="Введите текст, который будет отправляться в ответ на любое сообщение пользователя"
-                />
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <TextareaField
+                    label="Текст автоответа (RU)"
+                    value={autoResponder.textRu}
+                    onChangeValue={(value) => setAutoResponder(prev => ({ ...prev, textRu: value }))}
+                    rows={3}
+                    placeholder="Текст на русском языке"
+                  />
+                  <TextareaField
+                    label="Текст автоответа (KK)"
+                    value={autoResponder.textKk}
+                    onChangeValue={(value) => setAutoResponder(prev => ({ ...prev, textKk: value }))}
+                    rows={3}
+                    placeholder="Қазақ тіліндегі мәтін"
+                  />
+                  <TextareaField
+                    label="Текст автоответа (EN)"
+                    value={autoResponder.textEn}
+                    onChangeValue={(value) => setAutoResponder(prev => ({ ...prev, textEn: value }))}
+                    rows={3}
+                    placeholder="Text in English"
+                  />
+                </div>
                 
                 <div className="flex gap-3">
                   <button

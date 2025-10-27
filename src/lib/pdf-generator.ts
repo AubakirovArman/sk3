@@ -58,7 +58,7 @@ export async function generatePDFWithPdfMake(data: {
   // Get localized strings
   const strings = {
     ru: {
-      title: 'Заключение независимого директора',
+      title: 'Заключение директора',
       date: 'Дата',
       file: 'Файл',
       summary: '📋 Итоговое решение',
@@ -66,7 +66,7 @@ export async function generatePDFWithPdfMake(data: {
       qrSubtitle: 'Отсканируйте QR-код для скачивания этого документа',
     },
     kk: {
-      title: 'Тәуелсіз директордың қорытындысы',
+      title: 'Директордың қорытындысы',
       date: 'Күні',
       file: 'Файл',
       summary: '📋 Қорытынды шешім',
@@ -74,7 +74,7 @@ export async function generatePDFWithPdfMake(data: {
       qrSubtitle: 'Осы құжатты жүктеу үшін QR-кодты сканерлеңіз',
     },
     en: {
-      title: 'Independent Director Conclusion',
+      title: 'Director Conclusion',
       date: 'Date',
       file: 'File',
       summary: '📋 Final Decision',

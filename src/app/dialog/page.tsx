@@ -61,6 +61,26 @@ export default function DialogPage() {
   const [playingAudioId, setPlayingAudioId] = useState<string | null>(null)
   const [loadingAudioId, setLoadingAudioId] = useState<string | null>(null)
   const [currentVideoUrl, setCurrentVideoUrl] = useState<string>('/IMG_3743.MOV')
+  
+  // Конфигурация видео для разных языков
+  // Поместите видео файлы в папку /public/ и укажите здесь пути
+  const languageVideos = {
+    ru: '/IMG_3743.MOV',     // Русское видео - замените на '/videos/russian-avatar.mov'
+    kk: '/IMG_3743.MOV',     // Казахское видео - замените на '/videos/kazakh-avatar.mov'  
+    en: '/IMG_3743.MOV',     // Английское видео - замените на '/videos/english-avatar.mov'
+    default: '/IMG_3743.MOV' // Дефолтное видео на случай ошибок
+  }
+
+  // Функция для выбора видео в зависимости от языка
+  const getVideoByLanguage = (lang: string, fallbackVideoUrl?: string) => {
+    // Если есть специальное видео из FAQ, используем его
+    if (fallbackVideoUrl) {
+      return fallbackVideoUrl
+    }
+    
+    // Иначе выбираем видео по языку из конфигурации
+    return languageVideos[lang as keyof typeof languageVideos] || languageVideos.default
+  }
   const [meetings, setMeetings] = useState<MeetingListItem[]>([])
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -312,16 +332,16 @@ export default function DialogPage() {
         audioRef.current.pause()
       }
 
-      // Установить видео для этого сообщения (используем videoUrl из FAQ или дефолтное)
-      const videoSrc = message.videoUrl || '/IMG_3743.MOV'
+      setLoadingAudioId(messageId)
+      const ttsLanguage = language === 'ru' ? 'ru' : language === 'kk' ? 'kk' : 'en'
+      
+      // Выбираем видео в зависимости от языка TTS
+      const videoSrc = getVideoByLanguage(ttsLanguage, message.videoUrl)
       setCurrentVideoUrl(videoSrc)
       if (videoRef.current && videoRef.current.src !== videoSrc) {
         videoRef.current.src = videoSrc
         videoRef.current.load()
       }
-
-      setLoadingAudioId(messageId)
-      const ttsLanguage = language === 'ru' ? 'ru' : language === 'kk' ? 'kk' : 'en'
 
       const response = await fetch('/api/tts', {
         method: 'POST',

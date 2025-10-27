@@ -6,7 +6,7 @@ import { ConditionalNavigation } from "@/components/conditional-navigation";
 import { LanguageProvider } from "@/contexts/language-context";
 
 export const metadata: Metadata = {
-  title: "SK AI — независимый (цифровой) член СД",
+  title: "SK AI — (цифровой) член СД",
   description: "SK AI — система искусственного интеллекта для поддержки принятия решений советом директоров",
 };
 

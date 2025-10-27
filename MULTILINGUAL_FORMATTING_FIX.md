@@ -6,7 +6,7 @@
 
 **Причина:** Компонент `SummaryView` был жёстко привязан к русским ключевым словам:
 - `ПУНКТ ПОВЕСТКИ ДНЯ`
-- `РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД`
+- `РЕШЕНИЕ ЧЛЕНА СД`
 - `КРАТКОЕ ЗАКЛЮЧЕНИЕ`
 - `ОБОСНОВАНИЕ`
 
@@ -20,21 +20,21 @@
 const SECTION_KEYWORDS = {
   ru: {
     agenda: 'ПУНКТ ПОВЕСТКИ ДНЯ',
-    decision: 'РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД',
+    decision: 'РЕШЕНИЕ ЧЛЕНА СД',
     briefConclusion: 'КРАТКОЕ ЗАКЛЮЧЕНИЕ',
     justification: 'ОБОСНОВАНИЕ',
     decisionVariants: ['ЗА', 'ПРОТИВ', 'ВОЗДЕРЖАЛСЯ'],
   },
   kk: {
     agenda: 'КҮН ТӘРТІБІНІҢ ТАРМАҒЫ',
-    decision: 'ДК ТӘУЕЛСІЗ МҮШЕСІНІҢ ШЕШІМІ',
+    decision: 'ДК МҮШЕСІНІҢ ШЕШІМІ',
     briefConclusion: 'ҚЫСҚАША ҚОРЫТЫНДЫ',
     justification: 'НЕГІЗДЕМЕ',
     decisionVariants: ['ЖАҚ', 'ҚАРСЫ', 'БЕЙТАРАП ҚАЛДЫ'],
   },
   en: {
     agenda: 'AGENDA ITEM',
-    decision: 'DECISION OF INDEPENDENT BOARD MEMBER',
+    decision: 'DECISION OF BOARD MEMBER',
     briefConclusion: 'BRIEF CONCLUSION',
     justification: 'JUSTIFICATION',
     decisionVariants: ['FOR', 'AGAINST', 'ABSTAINED'],

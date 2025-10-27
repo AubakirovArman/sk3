@@ -18,7 +18,7 @@ export function SummaryView({ summary }: SummaryViewProps) {
   }
 
   const lines = summaryText.split('\n')
-  const sectionRegex = /^\*\*(ПУНКТ ПОВЕСТКИ ДНЯ|РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД|КРАТКОЕ ЗАКЛЮЧЕНИЕ|ОБОСНОВАНИЕ):\*\*/
+  const sectionRegex = /^\*\*(ПУНКТ ПОВЕСТКИ ДНЯ|РЕШЕНИЕ ЧЛЕНА СД|КРАТКОЕ ЗАКЛЮЧЕНИЕ|ОБОСНОВАНИЕ):\*\*/
 
   const sections: Record<string, string[]> = {}
   let current: string | null = null
@@ -50,7 +50,7 @@ export function SummaryView({ summary }: SummaryViewProps) {
     )
   }
 
-  const decisionRaw = getSection('РЕШЕНИЕ НЕЗАВИСИМОГО ЧЛЕНА СД')
+  const decisionRaw = getSection('РЕШЕНИЕ ЧЛЕНА СД')
   if (decisionRaw) {
     const decision = decisionRaw.split(/\s+/)[0]?.toUpperCase() || decisionRaw.toUpperCase()
     const isPositive = decision.includes('ЗА')
