@@ -160,7 +160,7 @@ export default function AdminPage() {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                  Режим Virtual Director
+                  Режим Virtual Director VER 27 10 2025
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   Настройка режима работы и демо-данных
